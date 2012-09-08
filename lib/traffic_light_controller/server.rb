@@ -20,7 +20,7 @@ module TrafficLightController
             path = nil
 
             while(line = client.readline) do
-              break if line =~ /^\r?\n$/
+              break if line == "\r\n"
               if match = line.match(%r{GET /+(?<path>\w*) HTTP/1\.})
                 path = match[:path]
               end
