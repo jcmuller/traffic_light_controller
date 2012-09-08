@@ -53,11 +53,7 @@ module TrafficLightController
     attr_reader :server, :config
 
     def board
-      return @board unless @board.nil?
-
-      @board = Arduino.new(config.arduino.port)
-      @board.output(13)
-      @board
+      @board ||= Arduino.new(config.arduino.port)
     end
   end
 end
