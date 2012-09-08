@@ -46,6 +46,7 @@ module TrafficLightController
     def process(path)
       board.turnOff
       board.setHigh(config.arduino.lights[path]) unless path == "off"
+      board.close
     end
 
     private
@@ -53,7 +54,7 @@ module TrafficLightController
     attr_reader :server, :config
 
     def board
-      @board ||= Arduino.new(config.arduino.port)
+      @board = Arduino.new(config.arduino.port)
     end
   end
 end
