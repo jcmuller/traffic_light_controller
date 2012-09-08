@@ -1,7 +1,7 @@
 module TrafficLightController
   class Config
     def initialize
-      @config = Hashie::Mash.new(YAML.load_file('./config.yml'))
+      @config = Hashie::Mash.new(YAML.load_file('./config/config.yml'))
     end
 
     def method_missing(meth, *args, &block)
