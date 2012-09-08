@@ -1,0 +1,11 @@
+arduino:
+  port: /dev/tty.usbserial-A500C3PL
+  lights:
+    red: 5
+    yellow: 6
+    green: 13
+    "off": 0
+
+server:
+  address: 127.0.0.1
+  port: 1234
