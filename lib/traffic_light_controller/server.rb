@@ -2,15 +2,13 @@ module TrafficLightController
   class Server
 
     def initialize
-      begin
-        Thread.abort_on_exception = true
-        @config = Config.new
-        @server = TCPServer.new(config.server.address, config.server.port)
-      rescue Errno::EADDRINUSE
-        puts "Address in use"
-      rescue Errno::EADDRNOTAVAIL, SocketError
-        puts "Address not available"
-      end
+      Thread.abort_on_exception = true
+      @config = Config.new
+      @server = TCPServer.new(config.server.address, config.server.port)
+    rescue Errno::EADDRINUSE
+      puts "Address in use"
+    rescue Errno::EADDRNOTAVAIL, SocketError
+      puts "Address not available"
     end
 
     def work(run_forever = true)
