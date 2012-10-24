@@ -4,13 +4,13 @@ module TrafficLightController
       @config = Hashie::Mash.new(YAML.load_file('./config/config.yml'))
     end
 
-    def method_missing(meth, *args, &block)
-      return config[meth.to_s] if config.has_key?(meth.to_s)
+    def method_missing(method_name, *args, &block)
+      return config[method_name.to_s] if config.has_key?(method_name.to_s)
       super
     end
 
-    def respond_to?(meth)
-      config.has_key?(meth.to_s) || super
+    def respond_to?(method_name)
+      config.has_key?(method_name.to_s) || super
     end
 
     private
