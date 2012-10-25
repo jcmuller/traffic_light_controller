@@ -8,3 +8,7 @@ group :test do
   gem "simplecov", :require => false
   gem "simplecov-rcov"
 end
+
+group :development, :test do
+  gem "rake"
+end
