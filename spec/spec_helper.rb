@@ -5,6 +5,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require "simplecov"
+require 'simplecov-rcov'
+SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+SimpleCov.start do
+  add_filter "vendor/bundler_gems" # Ignore gems
+  add_filter "spec"
+end
+
 require "rspec/core"
 require "rspec/mocks"
 
