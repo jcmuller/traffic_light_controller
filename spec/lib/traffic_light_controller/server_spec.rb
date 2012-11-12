@@ -69,28 +69,25 @@ describe TrafficLightController::Server do
   describe "#start_thread_and_do_work" do
     it "should start a thread" do
       Thread.should_receive(:start).and_yield(client)
-      subject.should_receive(:work_with_client).with(client)
+      subject.should_receive(:accept_request).with(client)
       subject.send(:start_thread_and_do_work)
     end
   end
 
-  describe "#work_with_client" do
+  describe "#accept_request" do
     it "should call process path" do
       subject.should_receive(:process_request).with(client).and_return(:processed)
-      subject.should_receive(:process_path).with(:processed)
       client.should_receive(:close)
 
-      subject.send(:work_with_client, client)
+      subject.send(:accept_request, client)
     end
 
-    it "should rescue from all exceptions and log them to STDOUT" do
+    it "should rescue from all exceptions and log them to STDERR" do
       subject.should_receive(:process_request).and_raise RuntimeError
-
-      STDOUT.should_receive(:puts).with("Got RuntimeError: RuntimeError!")
-
+      STDERR.should_receive(:puts)
       client.should_receive(:close)
 
-      subject.send(:work_with_client, client)
+      subject.send(:accept_request, client)
     end
   end
 end

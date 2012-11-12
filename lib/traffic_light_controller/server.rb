@@ -5,6 +5,7 @@ module TrafficLightController
       Thread.abort_on_exception = true
       @config = Config.new
       @server = TCPServer.new(config.server.address, config.server.port)
+      @current_path = ""
     rescue Errno::EADDRINUSE
       address_in_use_error(config.server)
     rescue Errno::EADDRNOTAVAIL, SocketError
@@ -19,28 +20,43 @@ module TrafficLightController
 
     private
 
-    attr_reader :server, :config, :board
+    attr_reader :server, :config, :board, :current_path
 
     def start_thread_and_do_work
-      Thread.start(server.accept) do |client|
-        work_with_client(client)
+      Thread.start(server.accept) do |request|
+        accept_request(request)
       end
     end
 
-    def work_with_client(client)
-      puts "work_with_client"
-      process_path(process_request(client))
+    def accept_request(request)
+      process_request(request)
     rescue => e
-      puts "Got #{e.class}: #{e}!"
+      STDERR.puts "Got #{e.class}: #{e}!
+
+#{e.backtrace.join($/)}"
     ensure
-      client.close
+      request.close
     end
 
-    def process_request(client)
-      puts "process_request"
-      path = nil
+    def process_request(request)
+      path = path_from_request(request)
 
-      while(line = client.readline) do
+      if config.arduino.lights.has_key?(path)
+        if path != current_path
+          @current_path = path
+          change_pins(path)
+          respond_200(request, path)
+        else
+          respond_304(request, path)
+        end
+      else
+        respond_404(request, path)
+      end
+    end
+
+    def path_from_request(request)
+      path = ""
+      while(line = request.readline) do
         break if line == "\r\n"
         if match = line.match(%r{GET /+(?<path>\w*) HTTP/1\.})
           path = match[:path]
@@ -50,28 +66,28 @@ module TrafficLightController
       path
     end
 
-    def process_path(path)
-      puts "process_path"
-      if config.arduino.lights.has_key?(path)
-        change_pins(path)
-        client.print "HTTP/1.1 200 OK\r\nContent-type:text/plain\r\n\r\n"
-        client.puts path
-      else
-        client.print "HTTP/1.1 404 Not Found\r\nContent-type:text/plain\r\n\r\n"
-        client.puts "The requested path doesn't exist"
-      end
-    end
-
     def change_pins(path)
-      puts "change_pins"
       init_board
       board.turnOff
       board.setHigh(config.arduino.lights[path]) unless path == "off"
       board.close
     end
 
+    def respond_200(request, path)
+      request.print "HTTP/1.1 200 OK\r\nContent-type:text/plain\r\n\r\n"
+      request.puts path
+    end
+
+    def respond_304(request, path)
+      request.puts "HTTP/1.1 304 Not Modified\r\nContent-type:text/plain\r\n\r\n"
+    end
+
+    def respond_404(request, path)
+      request.print "HTTP/1.1 404 Not Found\r\nContent-type:text/plain\r\n\r\n"
+      request.puts "The requested path doesn't exist"
+    end
+
     def init_board
-      puts "board"
       @board = Arduino.new(config.arduino.port)
     rescue Errno::ENOENT
       STDERR.puts "The port #{config.arduino.port} doesn't exist"
