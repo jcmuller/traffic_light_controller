@@ -10,9 +10,9 @@ end
 
 group :test do
   gem "ci_reporter"
+  gem "coveralls", require: false
   gem "rake"
   gem "rspec"
-  gem "simplecov", require: false
   gem "simplecov-rcov"
-  gem "coveralls", require: false
+  gem "simplecov", require: false
 end
