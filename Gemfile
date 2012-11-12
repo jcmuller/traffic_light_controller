@@ -2,13 +2,20 @@ source :rubygems
 
 gemspec
 
-group :test do
-  gem "rspec"
-  gem "ci_reporter"
-  gem "simplecov", :require => false
-  gem "simplecov-rcov"
+group :development do
+  gem "guard"
+  gem "guard-bundler"
+  gem "guard-rspec"
+  gem "rb-fchange", :require => false
+  gem "rb-fsevent", :require => false
+  gem "rb-inotify", :require => false
+  gem "terminal-notifier-guard"
 end
 
-group :development, :test do
+group :test do
+  gem "ci_reporter"
   gem "rake"
+  gem "rspec"
+  gem "simplecov", :require => false
+  gem "simplecov-rcov"
 end
