@@ -6,6 +6,7 @@ module TrafficLightController
 
     class << self
       def run
+        change_program_name
         cli = self.new
         cli.process_command_line_options
         cli.run
@@ -35,6 +36,10 @@ module TrafficLightController
 
     attr_reader :server
 
+    def self.change_program_name
+      $0 = File.basename($0) << " (#{VERSION})"
+    end
+
     def options_possible
      [
         ['--help',    '-h', GetoptLong::NO_ARGUMENT],
@@ -54,7 +59,7 @@ module TrafficLightController
 
     def version_info
       <<-EOV
-traffic_light_controller (#{version_number})
+#{program_name}
 https://github.com/jcmuller/traffic_light_controller
 (c) 2012 Juan C. Muller
       EOV
