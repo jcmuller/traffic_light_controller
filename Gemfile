@@ -3,19 +3,15 @@ source :rubygems
 gemspec
 
 group :development do
-  gem "guard"
-  gem "guard-bundler"
-  gem "guard-rspec"
-  gem "rb-fchange", :require => false
-  gem "rb-fsevent", :require => false
-  gem "rb-inotify", :require => false
-  gem "terminal-notifier-guard"
+  gem "rb-fchange", require: false
+  gem "rb-fsevent", require: false
+  gem "rb-inotify", require: false
 end
 
 group :test do
   gem "ci_reporter"
   gem "rake"
   gem "rspec"
-  gem "simplecov", :require => false
+  gem "simplecov", require: false
   gem "simplecov-rcov"
 end
