@@ -35,4 +35,5 @@ Gem::Specification.new do |s|
   s.add_dependency("arduino")
   s.add_dependency("json")
   s.add_dependency("hashie")
+  s.add_dependency("command_line_helper")
 end

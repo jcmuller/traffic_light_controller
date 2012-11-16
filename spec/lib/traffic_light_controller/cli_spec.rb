@@ -28,15 +28,4 @@ describe TrafficLightController::CLI do
       expect{ subject.send(:show_help_and_exit) }.to raise_error SystemExit
     end
   end
-
-  describe "#help_info" do
-    it "should return the nice string" do
-      subject.should_receive(:prog_name)
-      subject.should_receive(:short_hand_options)
-      subject.should_receive(:option_details)
-      subject.should_receive(:version_info)
-
-      subject.send(:help_info)
-    end
-  end
 end
