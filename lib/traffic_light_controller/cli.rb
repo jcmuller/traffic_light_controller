@@ -18,7 +18,7 @@ module TrafficLightController
     end
 
     def process_command_line_options
-      GetoptLong.new(*options_possible).each do |opt, arg|
+      GetoptLong.new(*options).each do |opt, arg|
         case opt
         when '--help'
           show_help_and_exit
@@ -40,10 +40,14 @@ module TrafficLightController
       $0 = File.basename($0) << " (#{VERSION})"
     end
 
+    def options
+      options_possible.map{ |o| [o[0], o[1], o[2]]}
+    end
+
     def options_possible
      [
-        ['--help',    '-h', GetoptLong::NO_ARGUMENT],
-        ['--version', '-V', GetoptLong::NO_ARGUMENT],
+        ['--help',    '-h', GetoptLong::NO_ARGUMENT, 'Show this text'],
+        ['--version', '-V', GetoptLong::NO_ARGUMENT, 'Show version info'],
       ]
     end
 
