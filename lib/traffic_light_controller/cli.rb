@@ -24,6 +24,8 @@ module TrafficLightController
           show_help_and_exit
         when '--version'
           show_version_info_and_exit
+        when '--mock'
+          require File.expand_path("../../../spec/support/mock_arduino.rb", __FILE__)
         end
       end
     end
@@ -48,6 +50,7 @@ module TrafficLightController
      [
         ['--help',    '-h', GetoptLong::NO_ARGUMENT, 'Show this text'],
         ['--version', '-V', GetoptLong::NO_ARGUMENT, 'Show version info'],
+        ['--mock',    '-m', GetoptLong::NO_ARGUMENT, 'Use a mock arduino class']
       ]
     end
 

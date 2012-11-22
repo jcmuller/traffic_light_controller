@@ -60,7 +60,6 @@ describe TrafficLightController::Server do
   context "private methods" do
     describe "#board" do
       it "should instantiate a new arduino object" do
-        Arduino.should_receive(:new).with("port")
         subject.send(:init_board)
       end
     end
