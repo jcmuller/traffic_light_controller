@@ -2,3 +2,5 @@ coverage/
 pkg/
 spec/reports
 Gemfile.lock
+tags
+gems.tags

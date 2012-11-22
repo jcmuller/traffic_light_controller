@@ -12,3 +12,7 @@ guard 'rspec' do
   watch('spec/spec_helper.rb')  { "spec" }
 end
 
+guard 'ctags-bundler', src_path: ["lib"] do
+  watch(%r{lib/.*\.rb$})
+  watch('Gemfile.lock')
+end

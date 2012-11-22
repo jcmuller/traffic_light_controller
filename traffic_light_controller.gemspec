@@ -22,13 +22,14 @@ Gem::Specification.new do |s|
   s.homepage   = "http://github.com/jcmuller/traffic_light_controller"
   s.test_files = Dir["spec/**/*_spec.rb"]
 
-  s.add_development_dependency("rake")
+  s.add_development_dependency("guard")
+  s.add_development_dependency("guard-bundler")
+  s.add_development_dependency("guard-ctags-bundler")
+  s.add_development_dependency("guard-rspec")
   s.add_development_dependency("pry")
   s.add_development_dependency("pry-debugger")
   s.add_development_dependency("pry-stack_explorer")
-  s.add_development_dependency("guard")
-  s.add_development_dependency("guard-bundler")
-  s.add_development_dependency("guard-rspec")
+  s.add_development_dependency("rake")
   s.add_development_dependency("terminal-notifier-guard")
 
   s.add_dependency("sinatra")
