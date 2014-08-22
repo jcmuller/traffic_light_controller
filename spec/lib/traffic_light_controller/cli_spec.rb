@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe TrafficLightController::CLI do
-  let(:config) { mock }
-  let(:server) { mock }
+  let(:config) { double }
+  let(:server) { double }
 
   before do
     TrafficLightController::Config.stub(:new).and_return(config)
@@ -14,9 +14,7 @@ describe TrafficLightController::CLI do
 
   describe ".run" do
     it "should initialize server and call work on it" do
-      server = mock
-      TrafficLightController::Server.should_receive(:new).and_return(server)
-      server.should_receive(:work)
+      expect(server).to receive(:work)
       described_class.run
     end
   end
@@ -24,7 +22,6 @@ describe TrafficLightController::CLI do
   describe "show_help_and_exit" do
     it "should show help" do
       STDOUT.stub(:puts)
-      subject.should_receive(:help_info)
       expect{ subject.send(:show_help_and_exit) }.to raise_error SystemExit
     end
   end

@@ -1,9 +1,16 @@
 module TrafficLightController
   class Server
 
-    def initialize
+    class << self
+      def run
+        server = Server.new
+        server.work
+      end
+    end
+
+    def initialize(config = Config.new)
       Thread.abort_on_exception = true
-      @config = Config.new
+      @config = config
       @server = TCPServer.new(config.server.address, config.server.port)
       @current_path = ""
     rescue Errno::EADDRINUSE

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe TrafficLightController::Server do
-  let(:board) { mock }
-  let(:config) { mock }
-  let(:server) { mock(accept: client) }
-  let(:client) { mock }
+  let(:board) { double }
+  let(:config) { double }
+  let(:server) { double(accept: client) }
+  let(:client) { double }
 
   before do
     config.stub_chain(:server, :address).and_return("127.0.0.1")
