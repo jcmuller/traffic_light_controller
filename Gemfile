@@ -9,7 +9,7 @@ group :development do
 end
 
 group :test do
-  gem "ci_reporter"
+  #gem "ci_reporter"
   gem "coveralls", require: false
   gem "rake"
   gem "rspec"

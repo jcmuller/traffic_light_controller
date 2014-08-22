@@ -21,11 +21,8 @@ GEM
       serialport (>= 1.0.4)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    builder (3.2.2)
     celluloid (0.15.2)
       timers (~> 1.1.0)
-    ci_reporter (2.0.0)
-      builder (>= 2.1.2)
     coderay (1.1.0)
     columnize (0.8.9)
     command_line_helper (0.0.2)
@@ -138,7 +135,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ci_reporter
   coveralls
   guard
   guard-bundler
