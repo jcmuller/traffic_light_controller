@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("terminal-notifier-guard")
 
   s.add_dependency("sinatra")
-  s.add_dependency("arduino")
+  s.add_dependency("piface")
   s.add_dependency("json")
   s.add_dependency("hashie")
   s.add_dependency("command_line_helper")
