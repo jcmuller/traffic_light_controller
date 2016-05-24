@@ -1,3 +1,6 @@
+require "piface"
+require "socket"
+
 module TrafficLightController
   class Server
 
@@ -27,7 +30,7 @@ module TrafficLightController
 
     private
 
-    attr_reader :server, :config, :board, :current_path
+    attr_reader :server, :config, :current_path
 
     def start_thread_and_do_work
       Thread.start(server.accept) do |request|
@@ -48,7 +51,7 @@ module TrafficLightController
     def process_request(request)
       path = path_from_request(request)
 
-      if config.arduino.lights.has_key?(path)
+      if config.piface.key?(path) || (path == "off")
         if path != current_path
           @current_path = path
           change_pins(path)
@@ -74,10 +77,17 @@ module TrafficLightController
     end
 
     def change_pins(path)
-      init_board
-      board.turnOff
-      board.setHigh(config.arduino.lights[path]) unless path == "off"
-      board.close
+      cfg = config.piface[path]
+
+      Piface.init
+      Piface.write(cfg.pin, Piface::HIGH)
+
+      if cfg.reset_after_delay?
+        Thread.start do
+          sleep cfg.reset_after_delay
+          Piface.init
+        end
+      end
     end
 
     def respond_200(request, path)
@@ -92,16 +102,6 @@ module TrafficLightController
     def respond_404(request, path)
       request.print "HTTP/1.1 404 Not Found\r\nContent-type:text/plain\r\n\r\n"
       request.puts "The requested path doesn't exist"
-    end
-
-    def init_board
-      @board = Arduino.new(config.arduino.port)
-    rescue Errno::ENOENT
-      STDERR.puts "The port #{config.arduino.port} doesn't exist"
-      exit
-    rescue ArgumentError
-      STDERR.puts "#{config.arduino.port} is not a serial port"
-      exit
     end
 
     # ERRORS

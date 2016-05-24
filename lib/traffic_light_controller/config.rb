@@ -1,7 +1,10 @@
+require "hashie"
+require "yaml"
+
 module TrafficLightController
   class Config
     def initialize
-      @config = Hashie::Mash.new(YAML.load_file('./config/config.yml'))
+      @config = Hashie::Mash.new(YAML.load_file("#{ENV["HOME"]}/.config/traffic_light_controller/config.yml"))
     end
 
     def method_missing(method_name, *args, &block)

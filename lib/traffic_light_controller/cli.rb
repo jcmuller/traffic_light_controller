@@ -1,3 +1,4 @@
+require "getoptlong"
 require 'command_line_helper'
 
 module TrafficLightController
@@ -24,8 +25,6 @@ module TrafficLightController
           show_help_and_exit
         when '--version'
           show_version_info_and_exit
-        when '--mock'
-          require File.expand_path("../../../spec/support/mock_arduino.rb", __FILE__)
         when '--format'
         end
       end

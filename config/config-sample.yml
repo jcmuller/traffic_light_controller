@@ -1,10 +1,9 @@
-arduino:
-  port: /dev/tty.usbserial-A500C3PL
-  lights:
-    red: 5
-    yellow: 6
-    green: 13
-    "off": 0
+piface:
+  red:
+    pin: 6
+  green:
+    pin: 7
+    reset_after_delay: 5
 
 server:
   address: 127.0.0.1
